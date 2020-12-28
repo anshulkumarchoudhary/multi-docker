@@ -23,6 +23,7 @@ class Fib extends Component {
     this.setState({
       seenIndexes: seenIndexes.data,
     });
+    console.log('state has been set - ' + this.state.seenIndexes);
   }
 
   handleSubmit = async (event) => {
@@ -35,7 +36,9 @@ class Fib extends Component {
   };
 
   renderSeenIndexes() {
-    return this.state.seenIndexes.map(({ number }) => number).join(', ');
+    console.log('invoking api');
+    //return 'This is a test';
+    return this.state.seenIndexes.map(({ seen_number }) => seen_number).join(', ');
   }
 
   renderValues() {

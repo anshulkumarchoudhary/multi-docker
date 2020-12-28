@@ -58,10 +58,12 @@ app.post('/values', async (req, res) => {
   if (parseInt(index) > 40) {
     return res.status(422).send('Index too high');
   }
-
+  console.log('Setting value in Cache - '+ index);
   redisClient.hset('values', index, 'Nothing yet!');
   redisPublisher.publish('insert', index);
+  
   pgClient.query('INSERT INTO seen_values(seen_number) VALUES($1)', [index]);
+  console.log('Setting value in postgres - '+ index);
 
   res.send({ working: true });
 });
