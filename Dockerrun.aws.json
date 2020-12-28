@@ -17,7 +17,7 @@
                     "containerPort": 80
                 }
             ],
-            "links": ["aws_client","aws_nginx"],
+            "links": ["aws_client","aws_server"],
             "memory": 128
         },
         {
