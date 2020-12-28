@@ -1,0 +1,49 @@
+version: '3'
+services:
+  postgres-db:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_HOST_AUTH_METHOD:=trust
+      - POSTGRES_PASSWORD=pass3word
+  redis-cache-server:
+    image: 'redis:latest'
+  api:
+    build:
+      context: server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      - REDIS_HOST=redis-cache-server
+      - REDIS_PORT:=6379
+      - PGUSER=postgres
+      - PGPASSWORD=pass3word
+      - PGHOST=postgres-db
+      - PGDATABASE=db
+      - PGPORT=5432
+  client:
+    stdin_open: true
+    build: 
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+  worker:
+    build:
+      context: ./worker
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+      - REDIS_HOST=redis-cache-server
+      - REDIS_PORT:=6379
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+      - '3050:80'
+    depends_on:
+      - api
+      - client
