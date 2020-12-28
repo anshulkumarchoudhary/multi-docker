@@ -1,0 +1,32 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions":[{
+            "name": "aws_client",
+            "image": "anshulkumarchoudhary/multi-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "aws_nginx",
+            "image": "anshulkumarchoudhary/multi-nginx",
+            "essential": true,
+            "portMappings": [{
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["aws_client","aws_nginx"]
+        },
+        {
+            "name": "aws_server",
+            "image": "anshulkumarchoudhary/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "aws_worker",
+            "image": "anshulkumarchoudhary/multi-worker",
+            "essential": false
+        }
+    ]
+}
