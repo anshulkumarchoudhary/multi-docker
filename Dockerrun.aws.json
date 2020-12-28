@@ -4,29 +4,35 @@
             "name": "aws_client",
             "image": "anshulkumarchoudhary/multi-client",
             "hostname": "client",
-            "essential": false
+            "essential": false,
+            "memory": 128
         },
         {
             "name": "aws_nginx",
             "image": "anshulkumarchoudhary/multi-nginx",
+            "hostname": "nginx",
             "essential": true,
             "portMappings": [{
                     "hostPort": 80,
                     "containerPort": 80
                 }
             ],
-            "links": ["aws_client","aws_nginx"]
+            "links": ["aws_client","aws_nginx"],
+            "memory": 128
         },
         {
             "name": "aws_server",
             "image": "anshulkumarchoudhary/multi-server",
             "hostname": "api",
-            "essential": false
+            "essential": false,
+            "memory": 128
         },
         {
             "name": "aws_worker",
             "image": "anshulkumarchoudhary/multi-worker",
-            "essential": false
+            "hostname": "worker",
+            "essential": false,
+            "memory": 128
         }
     ]
 }
